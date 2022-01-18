@@ -2,8 +2,6 @@ import { galleryItems } from './gallery-items.js'
 
 const galleryContainer = document.querySelector('.gallery')
 
-galleryContainer.addEventListener('click', onGalleryContainerClick)
-
 const galleryMarkup = createGalleryMarkup(galleryItems)
 galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup)
 
@@ -19,11 +17,7 @@ function createGalleryMarkup(images) {
 		.join('')
 }
 
-function onGalleryContainerClick(event) {
-	event.preventDefault()
-
-	let lightbox = new SimpleLightbox('.gallery a', {
-		captionsData: 'alt',
-		captionDelay: 250,
-	})
-}
+let lightbox = new SimpleLightbox('.gallery a', {
+	captionsData: 'alt',
+	captionDelay: 250,
+})
