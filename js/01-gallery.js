@@ -1,10 +1,10 @@
 import { galleryItems } from './gallery-items.js'
 
 const galleryContainer = document.querySelector('.gallery')
-const galleryMarkup = createGalleryMarkup(galleryItems)
 
 galleryContainer.addEventListener('click', onGalleryContainerClick)
 
+const galleryMarkup = createGalleryMarkup(galleryItems)
 galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup)
 
 function createGalleryMarkup(images) {
@@ -12,7 +12,7 @@ function createGalleryMarkup(images) {
 		.map(({ preview, original, description }) => {
 			return `
 			<div class="gallery__item">
-				<a class="gallery__link" href="large-image.jpg" onclick="event.preventDefault()">
+				<a class="gallery__link" href="${original}" >
 					<img
 						class="gallery__image"
 						src="${preview}"
@@ -27,23 +27,22 @@ function createGalleryMarkup(images) {
 }
 
 function onGalleryContainerClick(event) {
-	// event.preventDefault()
-	if (!event.target.classList.contains('gallery__link')) {
-		return
+	event.preventDefault()
+
+	for (let i = 0; i < galleryItems.length; i += 1) {
+		if (event.target.dataset.source === galleryItems[i].original) {
+			const instance = basicLightbox.create(`
+			<img src="${galleryItems[i].original}" alt="${galleryItems[i].description}" />
+						`)
+			instance.show()
+
+			document.addEventListener('keydown', closeByButtonEscape)
+
+			function closeByButtonEscape(event) {
+				if (event.key === 'Escape') {
+					instance.close()
+				}
+			}
+		}
 	}
-	// console.log(event.target)
 }
-
-// ------------------
-
-// event.preventDefault()
-
-// ------------------
-
-const instance = basicLightbox.create(`
-    <img src="assets/images/image.png" width="800" height="600">
-`)
-
-instance.show()
-
-console.log(instance.show())
